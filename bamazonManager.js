@@ -27,7 +27,7 @@ function runBamazonManager() {
                 "View Low Inventory",
                 "Add to Inventory",
                 "Add New Product",
-                "exit"
+                "Exit"
             ]
         }
     ]).then(function (ans) {
@@ -44,7 +44,7 @@ function runBamazonManager() {
             case "Add New Product":
                 addNewProduct();
                 break;
-            case "exit":
+            case "Exit":
                 connection.end();
                 break;
         }

@@ -62,7 +62,8 @@ function processOrder(ans) {
     connection.query(query, { item_id: ans.itemID }, function (err, res) {
         if (err) throw err;
         if (ans.quantity > res[0].stock_quantity) {
-            console.log("Insufficient quantity available to process order.")
+            console.log("Insufficient quantity available to process order.");
+            connection.end();
         } else {
             var remaining = res[0].stock_quantity - parseInt(ans.quantity);
             var total = res[0].price * parseInt(ans.quantity);
