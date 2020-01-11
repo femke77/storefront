@@ -16,7 +16,7 @@ connection.connect(function (err) {
 });
 
 function runBamazonManager() {
-
+    console.log("");
     inquirer.prompt([
         {
             message: "Choose from the following options:",
@@ -26,7 +26,8 @@ function runBamazonManager() {
                 "View Products for Sale",
                 "View Low Inventory",
                 "Add to Inventory",
-                "Add New Product"
+                "Add New Product",
+                "exit"
             ]
         }
     ]).then(function (ans) {
@@ -130,6 +131,54 @@ function updateStockQuant(currentStock, addStock, itemID){
 
 
 function addNewProduct() {
+    inquirer.prompt([
+        {
+            message: "Enter the product name.",
+            name: "productName",
+            
+        },
+        {
+            message: "Enter the department name of the product.",
+            name: "deptName"
+        
+        },
+        {
+            message: "Enter the stock quantity for the product.",
+            name: "stockQuantity",
+            validate: function(input) {
+                if (isNaN(input)){
+                    throw "Enter a number please."
+                }
+                return true;
+            }
+        },
+        {
+            message: "Enter the price per unit of the product.",
+            name: "price",
+            validate: function(input) {
+                if (isNaN(input)){
+                    throw "Enter a number please."
+                }
+                return true;
+            }
+        }
+    ]).then(function(ans) {
+        console.log("");
+        var query = "INSERT INTO products SET ?";
+        connection.query(query, 
+            {
+                product_name: ans.productName,
+                department_name: ans.deptName,
+                price: parseInt(ans.price).toFixed(2),
+                stock_quantity: parseInt(ans.stockQuantity)
+            }, 
+            function (err, res){
+            if (err) throw err;
+            console.log("Product successfully added.");
+            runBamazonManager();
+        });
+
+    });
 
 }
 
