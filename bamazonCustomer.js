@@ -43,34 +43,37 @@ function inquire() {
         {
             message: "Enter the amount you wish to buy.",
             name: "quantity",
-            validate: function(name){
-                if (isNaN(name)){
+            validate: function (name) {
+                if (isNaN(name)) {
                     throw "Enter a number please."
                 }
                 return true;
             }
         }
-    ]).then(function(ans) {
+    ]).then(function (ans) {
         processOrder(ans);
+        
     })
 }
 
-function processOrder(ans){
+function processOrder(ans) {
 
     var query = "SELECT stock_quantity, price FROM products WHERE ?"
-    connection.query(query, {item_id: ans.itemID}, function(err, res){
+    connection.query(query, { item_id: ans.itemID }, function (err, res) {
         if (err) throw err;
-        if (ans.quantity > res[0].stock_quantity){
+        if (ans.quantity > res[0].stock_quantity) {
             console.log("Insufficient quantity available to process order.")
         } else {
             var remaining = res[0].stock_quantity - parseInt(ans.quantity);
             var total = res[0].price * parseInt(ans.quantity);
             query = "UPDATE products SET ? WHERE ?"
-            connection.query(query, [{stock_quantity: remaining},{item_id: ans.itemID}], function(err, res){
+            connection.query(query, [{ stock_quantity: remaining }, { item_id: ans.itemID }], function (err, res) {
                 if (err) throw err;
                 console.log(`Your order is processed and the total charged to your card is $${total.toFixed(2)}`)
+                connection.end();
             });
         }
     });
+   
 }
 

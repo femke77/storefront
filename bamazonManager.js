@@ -24,15 +24,13 @@ function runBamazonManager() {
             type: "list",
             choices: [
                 "View Products for Sale",
-                "View Low inventory",
+                "View Low Inventory",
                 "Add to Inventory",
                 "Add New Product"
             ]
         }
-
-
-    ]).then(function (name) {
-        switch (name) {
+    ]).then(function (ans) {
+        switch (ans.managerTask) {
             case "View Products for Sale":
                 viewProducts();
                 break;
@@ -53,14 +51,42 @@ function runBamazonManager() {
 }
 
 function viewProducts() {
-
+    var query = "SELECT * FROM products";
+    connection.query(query, function(err, res){
+        if (err) throw err;
+        res.forEach(e => {
+            console.log(`*****************************
+Item ID: ${e.item_id}
+Product name: ${e.product_name}
+Department: ${e.department_name}
+Price: $${e.price.toFixed(2)}
+Stock Quantity: ${e.stock_quantity}`);           
+        });
+       runBamazonManager();
+    });
+    
 }
 
 function viewLowInventory() {
+    var query = "SELECT * FROM products WHERE stock_quantity < 3";
+    connection.query(query, function(err, res){
+        if (err) throw err;
+        res.forEach(e => {
+            console.log(`*****************************
+Item ID: ${e.item_id}
+Product name: ${e.product_name}
+Department: ${e.department_name}
+Price: $${e.price.toFixed(2)}
+Stock Quantity: ${e.stock_quantity}`)
+        });
+        runBamazonManager();
+    });
+    
 
 }
 
 function addToInventory() {
+    
     
 }
 
