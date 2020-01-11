@@ -34,8 +34,8 @@ function inquire() {
             message: "Enter the item number of the product you wish to purchase.",
             name: "itemID",
             validate: function (name) {
-                if (isNaN(name) || name < 1 || name > 10) {
-                    throw "Enter a number between 1 and 10 please.";
+                if (isNaN(name)) {
+                    throw "Enter a number please.";
                 }
                 return true;
             }
