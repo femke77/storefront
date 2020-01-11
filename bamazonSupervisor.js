@@ -45,13 +45,15 @@ function runBamazonSupervisor(){
 }
 
 function viewSalesByDept(){
-    var query = "SELECT departments.department_id, departments.department_name, departments.over_head_costs, SUM(products.product_sales), (SUM(products.product_sales) - departments.over_head_costs) AS total_profit FROM departments LEFT JOIN products ON departments.department_id=products.department_id GROUP BY departments.department_id"
+    var query = "SELECT departments.department_id, departments.department_name, FORMAT(departments.over_head_costs, 2) AS over_head, FORMAT(SUM(products.product_sales), 2) AS product_sales, FORMAT((SUM(products.product_sales) - departments.over_head_costs), 2) AS total_profit FROM departments LEFT JOIN products ON departments.department_id=products.department_id GROUP BY departments.department_id"
     connection.query(query, function(err, res){
         if (err) throw err;
-        res.forEach(e=> {
-            console.log(e)
-        })
-    })
+        const table = cTable.getTable(res);
+        
+        console.log(table);
+        runBamazonSupervisor();
+        
+    });
 }
 
 function createDept(){
@@ -75,7 +77,8 @@ function createDept(){
         connection.query(query, {department_name: ans.deptName, over_head_costs: ans.overhead}, function(err, res){
             if (err) throw err;
             console.log("New department added successfully.")
-        })
-    })
+            runBamazonSupervisor();
+        });
+    });
 
 }
