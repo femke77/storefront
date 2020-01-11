@@ -5,7 +5,7 @@ const cTable = require('console.table');
 var connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
-    user: "root",
+    user: "root",                                                                           
     password: "2hearts",
     database: "bamazon"
 });
@@ -42,4 +42,40 @@ function runBamazonSupervisor(){
                 break;
         }
     });
+}
+
+function viewSalesByDept(){
+    var query = "SELECT departments.department_id, departments.department_name, departments.over_head_costs, SUM(products.product_sales), (SUM(products.product_sales) - departments.over_head_costs) AS total_profit FROM departments LEFT JOIN products ON departments.department_id=products.department_id GROUP BY departments.department_id"
+    connection.query(query, function(err, res){
+        if (err) throw err;
+        res.forEach(e=> {
+            console.log(e)
+        })
+    })
+}
+
+function createDept(){
+    inquirer.prompt([
+        {
+            message: "Enter the new department name.",
+            name: "deptName"
+        },
+        {
+            message: "Enter the overhead costs associated with this department.",
+            name: "overhead",
+            validate: function(input){
+                if (isNaN(input)){
+                    throw "Please enter a number."
+                }
+                return true;
+            }
+        }
+    ]).then(function(ans){
+        var query = "INSERT INTO departments SET ?";
+        connection.query(query, {department_name: ans.deptName, over_head_costs: ans.overhead}, function(err, res){
+            if (err) throw err;
+            console.log("New department added successfully.")
+        })
+    })
+
 }

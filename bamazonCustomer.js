@@ -58,7 +58,7 @@ function inquire() {
 
 function processOrder(ans) {
 
-    var query = "SELECT stock_quantity, price FROM products WHERE ?"
+    var query = "SELECT stock_quantity, product_sales, price FROM products WHERE ?"
     connection.query(query, { item_id: ans.itemID }, function (err, res) {
         if (err) throw err;
         if (ans.quantity > res[0].stock_quantity) {
@@ -67,8 +67,9 @@ function processOrder(ans) {
         } else {
             var remaining = res[0].stock_quantity - parseInt(ans.quantity);
             var total = res[0].price * parseInt(ans.quantity);
+            var updatedProductSales = res[0].product_sales + total;
             query = "UPDATE products SET ? WHERE ?"
-            connection.query(query, [{ stock_quantity: remaining }, { item_id: ans.itemID }], function (err, res) {
+            connection.query(query, [{ stock_quantity: remaining, product_sales: updatedProductSales}, { item_id: ans.itemID }], function (err, res) {
                 if (err) throw err;
                 console.log(`Your order is processed and the total charged to your card is $${total.toFixed(2)}`)
                 connection.end();

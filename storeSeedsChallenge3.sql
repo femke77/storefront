@@ -1,6 +1,5 @@
 INSERT INTO departments (department_name, over_head_costs)
-VALUES ("audio", 1500), ("smart phones", 1200), ("home", 1000),("fitness", 900), ("cooking", 1100), ("computing", 1235)
-
+VALUES ("audio", 150), ("smart phones", 120), ("home", 100),("fitness", 900), ("cooking", 700), ("computing", 1239);
 
 INSERT INTO products (product_name, department_id, price, stock_quantity)
 VALUES
