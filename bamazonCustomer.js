@@ -11,7 +11,7 @@ var connection = mysql.createConnection({
 
 connection.connect(function (err) {
     if (err) throw err;
-    console.log("Welcome to Bamazon! Here are our available goods for today today.")
+    console.log(`Welcome to Bamazon! Here are our available goods for today.  \n`)
     runBamazon();
 });
 
@@ -56,10 +56,6 @@ function inquire() {
 }
 
 function processOrder(ans){
-    //get quantity of the chosen item from db
-    //check if user quanity > actual stock
-    //if not enough stock, alert user
-    //if enough stock, update the db quanity and give total price
 
     var query = "SELECT stock_quantity, price FROM products WHERE ?"
     connection.query(query, {item_id: ans.itemID}, function(err, res){
@@ -72,9 +68,9 @@ function processOrder(ans){
             query = "UPDATE products SET ? WHERE ?"
             connection.query(query, [{stock_quantity: remaining},{item_id: ans.itemID}], function(err, res){
                 if (err) throw err;
-                console.log(`Your order is processed and your total is $${total.toFixed(2)}`)
-            })
+                console.log(`Your order is processed and the total charged to your card is $${total.toFixed(2)}`)
+            });
         }
-    })
+    });
 }
 
