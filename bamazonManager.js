@@ -59,7 +59,7 @@ function viewProducts() {
             console.log(`*****************************
 Item ID: ${e.item_id}
 Product name: ${e.product_name}
-Department: ${e.department_name}
+Department: ${e.department_id}
 Price: $${e.price.toFixed(2)}
 Stock Quantity: ${e.stock_quantity}`);           
         });
@@ -114,7 +114,8 @@ function addToInventory() {
             currentStock = res[0].stock_quantity;
             console.log(`Current stock: ${currentStock}`);
             updateStockQuant(currentStock, parseInt(ans.newInventoryAmt), parseInt(ans.itemID));           
-        });       
+        });  
+             
     });    
 }
 
@@ -138,8 +139,8 @@ function addNewProduct() {
             
         },
         {
-            message: "Enter the department name of the product.",
-            name: "deptName"
+            message: "Enter the department id for the product.",
+            name: "deptId"
         
         },
         {
@@ -168,7 +169,7 @@ function addNewProduct() {
         connection.query(query, 
             {
                 product_name: ans.productName,
-                department_name: ans.deptName,
+                department_id: ans.deptId,
                 price: parseInt(ans.price).toFixed(2),
                 stock_quantity: parseInt(ans.stockQuantity)
             }, 

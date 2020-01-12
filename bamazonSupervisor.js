@@ -46,9 +46,9 @@ function runBamazonSupervisor(){
 
 function viewSalesByDept(){
     var query = "SELECT departments.department_id, departments.department_name, " +
-    "FORMAT(departments.over_head_costs, 2) AS over_head, FORMAT(SUM(products.product_sales), 2) AS product_sales, "+
-    "FORMAT((SUM(products.product_sales) - departments.over_head_costs), 2) AS total_profit FROM departments LEFT JOIN "+
-    "products ON departments.department_id=products.department_id GROUP BY departments.department_id"
+        "FORMAT(departments.over_head_costs, 2) AS over_head, FORMAT(SUM(products.product_sales), 2) AS product_sales, " +
+        "FORMAT((SUM(products.product_sales) - departments.over_head_costs), 2) AS total_profit FROM departments LEFT JOIN " +
+        "products ON departments.department_id=products.department_id GROUP BY departments.department_id"
     connection.query(query, function(err, res){
         if (err) throw err;
         const table = cTable.getTable(res);
@@ -82,6 +82,16 @@ function createDept(){
             console.log("New department added successfully.")
             runBamazonSupervisor();
         });
+          
     });
 
 }
+
+
+// //TODO: 
+// Make better store seeds 
+// add activity
+// make gifs of all the js files working
+// write readme
+// add to portfolio
+// turn in
