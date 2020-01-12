@@ -136,11 +136,23 @@ function addNewProduct() {
         {
             message: "Enter the product name.",
             name: "productName",
+            validate: function(name){
+                if (name === "") {
+                     throw "Field cannot be blank."
+                 }
+                 return true;
+             }
             
         },
         {
             message: "Enter the department id for the product.",
-            name: "deptId"
+            name: "deptId",
+            validate: function(name){
+                if (name === "") {
+                     throw "Field cannot be blank."
+                 }
+                 return true;
+             }
         
         },
         {
@@ -149,8 +161,10 @@ function addNewProduct() {
             validate: function(input) {
                 if (isNaN(input)){
                     throw "Enter a number please."
+                } else if (name === "") {
+                    throw "Field cannot be blank."
                 }
-                return true;
+                return true;             
             }
         },
         {
@@ -159,6 +173,8 @@ function addNewProduct() {
             validate: function(input) {
                 if (isNaN(input)){
                     throw "Enter a number please."
+                } else if (name === ""){
+                    throw "Field cannot be blank."
                 }
                 return true;
             }

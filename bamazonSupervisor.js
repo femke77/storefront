@@ -63,14 +63,22 @@ function createDept(){
     inquirer.prompt([
         {
             message: "Enter the new department name.",
-            name: "deptName"
+            name: "deptName",
+            validate: function(name){
+               if (name === "") {
+                    throw "Field cannot be blank."
+                }
+                return true;
+            }
         },
         {
             message: "Enter the overhead costs associated with this department.",
             name: "overhead",
-            validate: function(input){
-                if (isNaN(input)){
+            validate: function(name){
+                if (isNaN(name)){
                     throw "Please enter a number."
+                } else if (name === "") {
+                    throw "Field cannot be blank."
                 }
                 return true;
             }
