@@ -87,11 +87,3 @@ function createDept(){
 
 }
 
-
-// //TODO: 
-// Make better store seeds 
-// add activity
-// make gifs of all the js files working
-// write readme
-// add to portfolio
-// turn in
